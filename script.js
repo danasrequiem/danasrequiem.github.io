@@ -60,30 +60,33 @@ function renderPreview() {
   });
 }
 
-form.addEventListener("submit", (e) => {
+const form = document.querySelector("form");
+const fileInput = document.querySelector("input[type='file']");
+
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const hasOversized = selectedFiles.some(file => file.size > MAX_MB * 1024 * 1024);
-  if (hasOversized) {
-    alert("One or more files are too large. Please remove them before submitting.");
-    return;
+  const files = fileInput.files;
+  if (!files.length) return alert("Please select a file");
+
+  const formData = new FormData();
+  formData.append("file", files[0]); // 👈 must be named "file"
+
+  try {
+    const res = await fetch("https://backend-2-f0bx.onrender.com/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Upload failed");
+
+    // Success UI handling
+    console.log("Uploaded File ID:", data.file_id);
+    // Show success UI or toast
+  } catch (err) {
+    console.error("Error:", err);
+    // Show error message
   }
-
-  const data = new FormData();
-  selectedFiles.forEach(file => data.append('media', file));
-
-  fetch('https://backend-2-f0bx.onrender.com/upload', {
-    method: 'POST',
-    body: data
-  })
-  .then(response => {
-    if (!response.ok) throw new Error("Upload failed");
-    successMsg.style.display = 'block';
-    selectedFiles = [];
-    renderPreview();
-  })
-  .catch(err => {
-    alert("Error uploading files.");
-    console.error(err);
-  });
 });
+
