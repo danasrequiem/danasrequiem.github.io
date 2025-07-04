@@ -72,7 +72,7 @@ form.addEventListener("submit", (e) => {
   const data = new FormData();
   selectedFiles.forEach(file => data.append('media', file));
 
-  fetch('/upload', {
+  fetch('https://backend-qb2p.onrender.com/upload', {
     method: 'POST',
     body: data
   })
