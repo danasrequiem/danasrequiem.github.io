@@ -1,55 +1,55 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("upload-form");
-  const input = document.getElementById("media");
+  const fileInput = document.getElementById("media");
   const preview = document.getElementById("file-preview");
+  const form = document.getElementById("upload-form");
   const message = document.getElementById("upload-message");
 
-  input.addEventListener("change", () => {
+  fileInput.addEventListener("change", () => {
     preview.innerHTML = "";
-    for (const file of input.files) {
+    Array.from(fileInput.files).forEach((file, i) => {
       const row = document.createElement("div");
       row.className = "file-row";
 
-      const inner = document.createElement("div");
-      inner.className = "file-row-inner";
-      inner.innerHTML = `<span>${file.name}</span>`;
+      const rowInner = document.createElement("div");
+      rowInner.className = "file-row-inner";
 
-      const del = document.createElement("button");
+      const name = document.createElement("span");
+      name.textContent = file.name;
+
+      const del = document.createElement("span");
       del.className = "delete-button";
       del.innerHTML = "&times;";
       del.onclick = () => {
         const dt = new DataTransfer();
-        for (const f of input.files) {
-          if (f !== file) dt.items.add(f);
-        }
-        input.files = dt.files;
-        row.remove();
+        const files = Array.from(fileInput.files);
+        files.splice(i, 1);
+        files.forEach(f => dt.items.add(f));
+        fileInput.files = dt.files;
+        fileInput.dispatchEvent(new Event("change"));
       };
 
-      inner.appendChild(del);
-      row.appendChild(inner);
+      rowInner.appendChild(name);
+      rowInner.appendChild(del);
+      row.appendChild(rowInner);
       preview.appendChild(row);
-    }
+    });
   });
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const formData = new FormData(form);
-
+    const data = new FormData(form);
     try {
       const res = await fetch("https://backend-2-f0bx.onrender.com/upload", {
         method: "POST",
-        body: formData
+        body: data,
       });
-
       if (!res.ok) throw new Error("Upload failed");
-
       message.style.display = "block";
-      input.value = "";
       preview.innerHTML = "";
+      fileInput.value = "";
     } catch (err) {
-      alert("There was an error uploading your files.");
       console.error(err);
+      alert("Something went wrong while uploading.");
     }
   });
 });

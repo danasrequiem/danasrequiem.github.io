@@ -67,9 +67,9 @@ input[type="file"] {
   flex-direction: column;
   gap: 1vh;
   margin-top: 1vh;
-  max-height: 30vh; /* 👈 Prevent it from taking over the whole page */
-  overflow-y: auto; /* 👈 Enables scrolling */
-  padding-right: 0.5vw; /* 👈 Optional: avoids scroll bar overlap */
+  max-height: 30vh;
+  overflow-y: auto;
+  padding-right: 0.5vw;
 }
 
 .file-row {
@@ -128,4 +128,3 @@ form button[type="submit"]:hover {
   font-weight: 500;
   font-size: 0.95rem;
 }
-
