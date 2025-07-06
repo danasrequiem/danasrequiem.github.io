@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dana's Requiem</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>In Memory of Dana</h1>
+    <p class="subtitle">Please share any photos or videos you have of Dana to help us celebrate his life.</p>
+
+    <form id="upload-form">
+      <label for="media" id="drop-label">
+        Click to select a photo or video
+        <input type="file" name="media" id="media" multiple required>
+      </label>
+      <div id="file-preview"></div>
+      <button type="submit">Send Tribute</button>
+    </form>
+
+    <div id="upload-message" class="upload-success" style="display: none;">
+      Uploaded successfully.
+    </div>
+  </div>
+  <script src="script.js" defer></script>
+</body>
+</html> 

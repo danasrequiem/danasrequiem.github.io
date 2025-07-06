@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #f0efeb, #eae8e2);
+  color: #333;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  background: white;
+  width: 92vw;
+  max-width: 420px;
+  padding: 1.8rem 1.5rem;
+  border-radius: 1.2rem;
+  box-shadow: 0 1.5vh 4vh rgba(0, 0, 0, 0.07);
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  margin-bottom: 0.6rem;
+  color: #222;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+label {
+  display: block;
+  border: 2px dashed #ccc;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  background-color: #fafafa;
+  color: #444;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+label:hover {
+  border-color: #999;
+  background-color: #f4f4f4;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+#file-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+  margin-top: 1vh;
+  max-height: 30vh;
+  overflow-y: auto;
+  padding-right: 0.5vw;
+}
+
+.file-row {
+  background: #f8f8f8;
+  padding: 0.4vh 0.6vw;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  word-break: break-word;
+}
+
+.file-row-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-button {
+  all: unset;
+  font-size: 1.2em;
+  color: #aaa;
+  cursor: pointer;
+  line-height: 1;
+  margin-left: 1vw;
+  transition: color 0.2s ease;
+  display: inline-block;
+}
+
+.delete-button:hover {
+  color: #d00;
+}
+
+form button[type="submit"] {
+  margin-top: 1.5rem;
+  background: #4b3f72;
+  color: white;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+form button[type="submit"]:hover {
+  background: #3b3261;
+}
+
+.upload-success {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
