@@ -3,9 +3,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const preview = document.getElementById("file-preview");
   const form = document.getElementById("upload-form");
   const message = document.getElementById("upload-message");
+  const submitButton = form.querySelector('button[type="submit"]');
+
+  const fileRows = new Map(); // Map filename to status element
 
   fileInput.addEventListener("change", () => {
+    message.style.display = "none";
     preview.innerHTML = "";
+    fileRows.clear();
+
     Array.from(fileInput.files).forEach((file) => {
       const row = document.createElement("div");
       row.className = "file-row";
@@ -16,10 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const name = document.createElement("span");
       name.textContent = file.name;
 
-      const del = document.createElement("span");
-      del.className = "delete-button";
-      del.innerHTML = "&times;";
-      del.onclick = () => {
+      const status = document.createElement("span");
+      status.className = "delete-button";
+      status.innerHTML = "&times;";
+      status.onclick = () => {
         const dt = new DataTransfer();
         const targetName = file.name;
         Array.from(fileInput.files).forEach(f => {
@@ -30,9 +36,10 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       rowInner.appendChild(name);
-      rowInner.appendChild(del);
+      rowInner.appendChild(status);
       row.appendChild(rowInner);
       preview.appendChild(row);
+      fileRows.set(file.name, status);
     });
   });
 
@@ -42,32 +49,39 @@ document.addEventListener("DOMContentLoaded", () => {
     if (files.length === 0) return;
 
     message.style.display = "none";
-    preview.innerHTML = "";
+    submitButton.disabled = true;
+
+    // Disable all delete buttons
+    fileRows.forEach((status) => {
+      status.onclick = null;
+      status.style.pointerEvents = "none";
+    });
 
     for (let file of files) {
       const data = new FormData();
       data.append("media", file);
 
-      const row = document.createElement("div");
-      row.className = "file-row";
-      row.innerText = `Uploading ${file.name}...`;
-      preview.appendChild(row);
+      const status = fileRows.get(file.name);
 
       try {
         const res = await fetch("https://backend-2-f0bx.onrender.com/upload", {
           method: "POST",
           body: data,
         });
+
         if (!res.ok) throw new Error("Upload failed");
 
-        row.innerText = `${file.name} uploaded successfully`;
+        status.textContent = "✓";
+        status.style.color = "green";
       } catch (err) {
-        row.innerText = `Failed to upload ${file.name}`;
+        status.textContent = "✗";
+        status.style.color = "red";
         console.error(err);
       }
     }
 
     fileInput.value = "";
+    submitButton.disabled = false;
     message.style.display = "block";
   });
 });

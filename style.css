@@ -118,6 +118,16 @@ form button[type="submit"]:hover {
   background: #3b3261;
 }
 
+form button[disabled] {
+  background: #999;
+  cursor: not-allowed;
+}
+
+form button[disabled]:hover {
+  background: #999;
+  cursor: not-allowed;
+}
+
 .upload-success {
   margin-top: 1rem;
   padding: 0.8rem;
